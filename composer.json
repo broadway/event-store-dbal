@@ -1,0 +1,58 @@
+{
+    "name": "broadway/event-store-dbal",
+    "description": "Event store implementation using doctrine/dbal",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.5.9",
+        "broadway/broadway": "^1.0@dev",
+        "doctrine/dbal": "~2.4",
+        "broadway/uuid-generator": "~0.4.0"
+    },
+    "authors": [
+      {
+        "name": "Alexander",
+        "email": "iam.asm89@gmail.com"
+      },
+      {
+        "name": "Emil",
+        "email": "emil@broekmeulen.com"
+      },
+      {
+        "name": "Fritsjan",
+        "email": "fritsjan@qandidate.com"
+      },
+      {
+        "name": "othillo",
+        "email": "othillo@othillo.nl"
+      },
+      {
+        "name": "Willem-Jan",
+        "email": "wjzijderveld@gmail.com"
+      },
+      {
+        "name": "Qandidate.com",
+        "homepage": "http://labs.qandidate.com/"
+      }
+    ],
+    "require-dev": {
+        "ext-pdo_sqlite": "*",
+        "phpunit/phpunit": "^4.8",
+        "ramsey/uuid": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Broadway\\EventStore\\Dbal\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Broadway\\EventStore\\Dbal\\": "test/",
+            "Broadway\\": "vendor/broadway/broadway/test/Broadway/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.2.x-dev"
+        }
+    }
+}
