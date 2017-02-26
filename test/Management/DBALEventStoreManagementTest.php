@@ -11,7 +11,7 @@
 
 namespace Broadway\EventStore\Dbal\Management;
 
-use Broadway\EventStore\DBALEventStore;
+use Broadway\EventStore\Dbal\DBALEventStore;
 use Broadway\EventStore\Management\EventStoreManagementTest;
 use Broadway\Serializer\SimpleInterfaceSerializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverter;
