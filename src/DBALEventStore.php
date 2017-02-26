@@ -9,12 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Broadway\EventStore;
+namespace Broadway\EventStore\Dbal;
 
 use Broadway\Domain\DateTime;
 use Broadway\Domain\DomainEventStream;
 use Broadway\Domain\DomainEventStreamInterface;
 use Broadway\Domain\DomainMessage;
+use Broadway\EventStore\EventStoreInterface;
+use Broadway\EventStore\EventStreamNotFoundException;
+use Broadway\EventStore\EventVisitorInterface;
 use Broadway\EventStore\Exception\DuplicatePlayheadException;
 use Broadway\EventStore\Exception\InvalidIdentifierException;
 use Broadway\EventStore\Management\Criteria;

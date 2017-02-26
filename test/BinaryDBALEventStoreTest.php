@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Broadway\EventStore;
+namespace Broadway\EventStore\Dbal;
 
 use Broadway\Domain\DomainEventStream;
 use Broadway\Serializer\SimpleInterfaceSerializer;

@@ -9,28 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Broadway\EventStore\Management;
+namespace Broadway\EventStore\Dbal\Management;
 
 use Broadway\EventStore\DBALEventStore;
+use Broadway\EventStore\Management\EventStoreManagementTest;
 use Broadway\Serializer\SimpleInterfaceSerializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverter;
 use Doctrine\DBAL\DriverManager;
-use Doctrine\DBAL\Version;
 
-/**
- * @requires extension pdo_sqlite
- */
-class BinaryDBALEventStoreManagementTest extends DBALEventStoreManagementTest
+class DBALEventStoreManagementTest extends EventStoreManagementTest
 {
-    /** @var \Doctrine\DBAL\Schema\Table  */
-    protected $table;
-
     public function createEventStore()
     {
-        if (Version::compare('2.5.0') >= 0) {
-            $this->markTestSkipped('Binary type is only available for Doctrine >= v2.5');
-        }
-
         $connection       = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
         $schemaManager    = $connection->getSchemaManager();
         $schema           = $schemaManager->createSchema();
@@ -39,13 +29,12 @@ class BinaryDBALEventStoreManagementTest extends DBALEventStoreManagementTest
             new SimpleInterfaceSerializer(),
             new SimpleInterfaceSerializer(),
             'events',
-            true,
+            false,
             new BinaryUuidConverter()
         );
 
-        $this->table = $eventStore->configureSchema($schema);
-
-        $schemaManager->createTable($this->table);
+        $table = $eventStore->configureSchema($schema);
+        $schemaManager->createTable($table);
 
         return $eventStore;
     }
