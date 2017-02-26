@@ -210,7 +210,7 @@ class DBALEventStore implements EventStoreInterface, EventStoreManagementInterfa
     {
         return new DomainMessage(
             $this->convertStorageValueToIdentifier($row['uuid']),
-            $row['playhead'],
+            (int) $row['playhead'],
             $this->metadataSerializer->deserialize(json_decode($row['metadata'], true)),
             $this->payloadSerializer->deserialize(json_decode($row['payload'], true)),
             DateTime::fromString($row['recorded_on'])
