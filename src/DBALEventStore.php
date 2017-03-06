@@ -13,17 +13,16 @@ namespace Broadway\EventStore\Dbal;
 
 use Broadway\Domain\DateTime;
 use Broadway\Domain\DomainEventStream;
-use Broadway\Domain\DomainEventStreamInterface;
 use Broadway\Domain\DomainMessage;
-use Broadway\EventStore\EventStoreInterface;
+use Broadway\EventStore\EventStore;
 use Broadway\EventStore\EventStreamNotFoundException;
-use Broadway\EventStore\EventVisitorInterface;
+use Broadway\EventStore\EventVisitor;
 use Broadway\EventStore\Exception\DuplicatePlayheadException;
 use Broadway\EventStore\Exception\InvalidIdentifierException;
 use Broadway\EventStore\Management\Criteria;
 use Broadway\EventStore\Management\CriteriaNotSupportedException;
-use Broadway\EventStore\Management\EventStoreManagementInterface;
-use Broadway\Serializer\SerializerInterface;
+use Broadway\EventStore\Management\EventStoreManagement;
+use Broadway\Serializer\Serializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverterInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
@@ -37,7 +36,7 @@ use Doctrine\DBAL\Version;
  * The implementation uses doctrine DBAL for the communication with the
  * underlying data store.
  */
-class DBALEventStore implements EventStoreInterface, EventStoreManagementInterface
+class DBALEventStore implements EventStore, EventStoreManagement
 {
     private $connection;
 
@@ -59,8 +58,8 @@ class DBALEventStore implements EventStoreInterface, EventStoreManagementInterfa
      */
     public function __construct(
         Connection $connection,
-        SerializerInterface $payloadSerializer,
-        SerializerInterface $metadataSerializer,
+        Serializer $payloadSerializer,
+        Serializer $metadataSerializer,
         $tableName,
         $useBinary,
         BinaryUuidConverterInterface $binaryUuidConverter
@@ -122,7 +121,7 @@ class DBALEventStore implements EventStoreInterface, EventStoreManagementInterfa
     /**
      * {@inheritDoc}
      */
-    public function append($id, DomainEventStreamInterface $eventStream)
+    public function append($id, DomainEventStream $eventStream)
     {
         // noop to ensure that an error will be thrown early if the ID
         // is not something that can be converted to a string. If we
@@ -267,7 +266,7 @@ class DBALEventStore implements EventStoreInterface, EventStoreManagementInterfa
         return $id;
     }
 
-    public function visitEvents(Criteria $criteria, EventVisitorInterface $eventVisitor)
+    public function visitEvents(Criteria $criteria, EventVisitor $eventVisitor)
     {
         $statement = $this->prepareVisitEventsStatement($criteria);
         $statement->execute();
