@@ -203,7 +203,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
         $table->addColumn('payload', 'text');
         $table->addColumn('metadata', 'text');
         $table->addColumn('recorded_on', 'string', ['length' => 32]);
-        $table->addColumn('type', 'text');
+        $table->addColumn('type', 'string', ['length' => 255]);
 
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['uuid', 'playhead']);
