@@ -11,6 +11,7 @@
 
 namespace Broadway\EventStore\Dbal;
 
+use Broadway\EventStore\EventStoreException;
 use Doctrine\DBAL\DBALException;
 
 /**
