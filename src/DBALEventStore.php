@@ -62,7 +62,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
         Serializer $metadataSerializer,
         $tableName,
         $useBinary,
-        BinaryUuidConverterInterface $binaryUuidConverter
+        BinaryUuidConverterInterface $binaryUuidConverter = null
     ) {
         $this->connection          = $connection;
         $this->payloadSerializer   = $payloadSerializer;
