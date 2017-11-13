@@ -52,16 +52,12 @@ class DBALEventStore implements EventStore, EventStoreManagement
 
     private $binaryUuidConverter;
 
-    /**
-     * @param string $tableName
-     * @param bool   $useBinary
-     */
     public function __construct(
         Connection $connection,
         Serializer $payloadSerializer,
         Serializer $metadataSerializer,
-        $tableName,
-        $useBinary,
+        string $tableName,
+        bool $useBinary,
         BinaryUuidConverterInterface $binaryUuidConverter = null
     ) {
         $this->connection          = $connection;
@@ -85,7 +81,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
     /**
      * {@inheritDoc}
      */
-    public function load($id)
+    public function load($id): DomainEventStream
     {
         $statement = $this->prepareLoadStatement();
         $statement->bindValue(1, $this->convertIdentifierToStorageValue($id));
@@ -107,7 +103,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
     /**
      * {@inheritDoc}
      */
-    public function loadFromPlayhead($id, $playhead)
+    public function loadFromPlayhead($id, int $playhead): DomainEventStream
     {
         $statement = $this->prepareLoadStatement();
         $statement->bindValue(1, $this->convertIdentifierToStorageValue($id));
