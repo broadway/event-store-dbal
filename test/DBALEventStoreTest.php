@@ -11,7 +11,7 @@
 
 namespace Broadway\EventStore\Dbal;
 
-use Broadway\EventStore\EventStoreTest;
+use Broadway\EventStore\Testing\EventStoreTest;
 use Broadway\Serializer\SimpleInterfaceSerializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverter;
 use Doctrine\DBAL\Connection;

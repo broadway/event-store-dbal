@@ -36,7 +36,7 @@
     ],
     "require-dev": {
         "ext-pdo_sqlite": "*",
-        "phpunit/phpunit": "^4.8",
+        "phpunit/phpunit": "^5.0",
         "ramsey/uuid": "^3.0"
     },
     "autoload": {
