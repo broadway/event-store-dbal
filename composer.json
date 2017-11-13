@@ -3,8 +3,8 @@
     "description": "Event store implementation using doctrine/dbal",
     "license": "MIT",
     "require": {
-        "php": ">=5.5.9",
-        "broadway/broadway": "^1.0",
+        "php": ">=7.0",
+        "broadway/broadway": "^2.0",
         "doctrine/dbal": "~2.4",
         "broadway/uuid-generator": "~0.4.0"
     },
@@ -46,13 +46,12 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Broadway\\EventStore\\Dbal\\": "test/",
-            "Broadway\\": "vendor/broadway/broadway/test/Broadway/"
+            "Broadway\\EventStore\\Dbal\\": "test/"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.2.x-dev"
+            "dev-master": "0.3.x-dev"
         }
     }
 }
