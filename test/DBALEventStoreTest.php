@@ -22,7 +22,7 @@ use Doctrine\DBAL\DriverManager;
  */
 class DBALEventStoreTest extends EventStoreTest
 {
-    public function setUp()
+    protected function setUp()
     {
         $connection       = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
         $schemaManager    = $connection->getSchemaManager();

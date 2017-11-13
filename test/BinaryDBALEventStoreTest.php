@@ -28,7 +28,7 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
     /** @var \Doctrine\DBAL\Schema\Table  */
     protected $table;
 
-    public function setUp()
+    protected function setUp()
     {
         if (Version::compare('2.5.0') >= 0) {
             $this->markTestSkipped('Binary type is only available for Doctrine >= v2.5');
