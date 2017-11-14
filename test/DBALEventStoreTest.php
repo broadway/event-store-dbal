@@ -14,6 +14,7 @@ namespace Broadway\EventStore\Dbal;
 use Broadway\EventStore\EventStoreTest;
 use Broadway\Serializer\SimpleInterfaceSerializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverter;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 
 /**
@@ -37,5 +38,20 @@ class DBALEventStoreTest extends EventStoreTest
 
         $table = $this->eventStore->configureSchema($schema);
         $schemaManager->createTable($table);
+    }
+
+    /**
+     * @test
+     */
+    public function it_allows_no_binary_uuid_converter_provided_when_not_using_binary()
+    {
+        $eventStore = new DBALEventStore(
+            $this->prophesize(Connection::class)->reveal(),
+            new SimpleInterfaceSerializer(),
+            new SimpleInterfaceSerializer(),
+            'events',
+            false,
+            null
+        );
     }
 }

@@ -76,6 +76,10 @@ class DBALEventStore implements EventStore, EventStoreManagement
                 'The Binary storage is only available with Doctrine DBAL >= 2.5.0'
             );
         }
+
+        if ($this->useBinary && null === $binaryUuidConverter) {
+            throw new \LogicException('binary UUID converter is required when using binary');
+        }
     }
 
     /**
