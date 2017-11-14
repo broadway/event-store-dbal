@@ -15,6 +15,7 @@ use Broadway\Domain\DomainEventStream;
 use Broadway\Serializer\SimpleInterfaceSerializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverter;
 use Broadway\UuidGenerator\Rfc4122\Version4Generator;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Version;
@@ -84,5 +85,22 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
                 (new Version4Generator())->generate(), // test UUID
             ],
         ];
+    }
+
+    /**
+     * @test
+     * @expectedException \LogicException
+     * @expectedExceptionMessage binary UUID converter is required when using binary
+     */
+    public function it_throws_when_no_binary_uuid_converter_provided_when_using_binary()
+    {
+        $eventStore = new DBALEventStore(
+            $this->prophesize(Connection::class)->reveal(),
+            new SimpleInterfaceSerializer(),
+            new SimpleInterfaceSerializer(),
+            'events',
+            true,
+            null
+        );
     }
 }

@@ -62,7 +62,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
         Serializer $metadataSerializer,
         $tableName,
         $useBinary,
-        BinaryUuidConverterInterface $binaryUuidConverter
+        BinaryUuidConverterInterface $binaryUuidConverter = null
     ) {
         $this->connection          = $connection;
         $this->payloadSerializer   = $payloadSerializer;
@@ -75,6 +75,10 @@ class DBALEventStore implements EventStore, EventStoreManagement
             throw new \InvalidArgumentException(
                 'The Binary storage is only available with Doctrine DBAL >= 2.5.0'
             );
+        }
+
+        if ($this->useBinary && null === $binaryUuidConverter) {
+            throw new \LogicException('binary UUID converter is required when using binary');
         }
     }
 
