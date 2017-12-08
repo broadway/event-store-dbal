@@ -16,7 +16,7 @@ install:
     - composer info
 
 script:
-  - phpunit
+  - vendor/bin/phpunit
 
 branches:
   only:
