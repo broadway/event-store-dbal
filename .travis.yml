@@ -3,21 +3,21 @@ language: php
 sudo: false
 
 php:
-  - 5.6
   - 7.0
   - 7.1
+  - 7.2
 
 before_install:
     - phpenv config-rm xdebug.ini || return 0
     - echo "memory_limit=2G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini || return 0
 
 install:
-    - travis_retry composer self-update
     - travis_retry composer install
-    - composer info -i
+    - composer info
 
 script:
-  - phpunit
+  - vendor/bin/phpunit
+  - git log $(git describe --abbrev=0 --tags)...HEAD --no-merges --pretty=format:"* [%h](http://github.com/${TRAVIS_REPO_SLUG}/commit/%H) %s (%cN)"
 
 branches:
   only:

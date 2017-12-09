@@ -11,7 +11,7 @@
 
 namespace Broadway\EventStore\Dbal;
 
-use Broadway\EventStore\EventStoreTest;
+use Broadway\EventStore\Testing\EventStoreTest;
 use Broadway\Serializer\SimpleInterfaceSerializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverter;
 use Doctrine\DBAL\Connection;
@@ -22,7 +22,7 @@ use Doctrine\DBAL\DriverManager;
  */
 class DBALEventStoreTest extends EventStoreTest
 {
-    public function setUp()
+    protected function setUp()
     {
         $connection       = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
         $schemaManager    = $connection->getSchemaManager();

@@ -12,7 +12,7 @@
 namespace Broadway\EventStore\Dbal\Management;
 
 use Broadway\EventStore\Dbal\DBALEventStore;
-use Broadway\EventStore\Management\EventStoreManagementTest;
+use Broadway\EventStore\Management\Testing\EventStoreManagementTest;
 use Broadway\Serializer\SimpleInterfaceSerializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverter;
 use Doctrine\DBAL\DriverManager;
