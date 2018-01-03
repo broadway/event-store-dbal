@@ -173,12 +173,12 @@ class DBALEventStore implements EventStore, EventStoreManagement
             return null;
         }
 
-        return $this->configureTable();
+        return $this->configureTable($schema);
     }
 
-    public function configureTable()
+    public function configureTable(Schema $schema = null)
     {
-        $schema = new Schema();
+        $schema = $schema ?: new Schema();
 
         $uuidColumnDefinition = [
             'type'   => 'guid',
