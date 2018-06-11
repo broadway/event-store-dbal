@@ -52,6 +52,8 @@ class DBALEventStore implements EventStore, EventStoreManagement
 
     private $binaryUuidConverter;
 
+    private $hasNativeJsonType;
+
     public function __construct(
         Connection $connection,
         Serializer $payloadSerializer,
@@ -76,6 +78,8 @@ class DBALEventStore implements EventStore, EventStoreManagement
         if ($this->useBinary && null === $binaryUuidConverter) {
             throw new \LogicException('binary UUID converter is required when using binary');
         }
+
+        $this->hasNativeJsonType = $this->connection->getDatabasePlatform()->hasNativeJsonType();
     }
 
     /**
@@ -155,8 +159,8 @@ class DBALEventStore implements EventStore, EventStoreManagement
         $data = [
             'uuid'        => $this->convertIdentifierToStorageValue((string) $domainMessage->getId()),
             'playhead'    => $domainMessage->getPlayhead(),
-            'metadata'    => json_encode($this->metadataSerializer->serialize($domainMessage->getMetadata())),
-            'payload'     => json_encode($this->payloadSerializer->serialize($domainMessage->getPayload())),
+            'metadata'    => $this->hasNativeJsonType ? $this->metadataSerializer->serialize($domainMessage->getMetadata()) : json_encode($this->metadataSerializer->serialize($domainMessage->getMetadata())),
+            'payload'     => $this->hasNativeJsonType ? $this->payloadSerializer->serialize($domainMessage->getPayload()) : json_encode($this->payloadSerializer->serialize($domainMessage->getPayload())),
             'recorded_on' => $domainMessage->getRecordedOn()->toString(),
             'type'        => $domainMessage->getType(),
         ];
@@ -200,8 +204,8 @@ class DBALEventStore implements EventStore, EventStoreManagement
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('uuid', $uuidColumnDefinition['type'], $uuidColumnDefinition['params']);
         $table->addColumn('playhead', 'integer', ['unsigned' => true]);
-        $table->addColumn('payload', 'text');
-        $table->addColumn('metadata', 'text');
+        $table->addColumn('payload', $this->hasNativeJsonType ? 'json' : 'text');
+        $table->addColumn('metadata', $this->hasNativeJsonType ? 'json' : 'text');
         $table->addColumn('recorded_on', 'string', ['length' => 32]);
         $table->addColumn('type', 'string', ['length' => 255]);
 
@@ -230,8 +234,8 @@ class DBALEventStore implements EventStore, EventStoreManagement
         return new DomainMessage(
             $this->convertStorageValueToIdentifier($row['uuid']),
             (int) $row['playhead'],
-            $this->metadataSerializer->deserialize(json_decode($row['metadata'], true)),
-            $this->payloadSerializer->deserialize(json_decode($row['payload'], true)),
+            $this->metadataSerializer->deserialize($this->hasNativeJsonType ? $row['metadata']: json_decode($row['metadata'], true)),
+            $this->payloadSerializer->deserialize($this->hasNativeJsonType ? $row['payload']: json_decode($row['payload'], true)),
             DateTime::fromString($row['recorded_on'])
         );
     }

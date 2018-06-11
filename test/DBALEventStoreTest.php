@@ -16,6 +16,7 @@ use Broadway\Serializer\SimpleInterfaceSerializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 /**
  * @requires extension pdo_sqlite
@@ -45,8 +46,12 @@ class DBALEventStoreTest extends EventStoreTest
      */
     public function it_allows_no_binary_uuid_converter_provided_when_not_using_binary()
     {
+        $connection = $this->prophesize(Connection::class);
+        $connection->getDatabasePlatform()
+            ->willReturn($this->prophesize(AbstractPlatform::class));
+
         $eventStore = new DBALEventStore(
-            $this->prophesize(Connection::class)->reveal(),
+            $connection->reveal(),
             new SimpleInterfaceSerializer(),
             new SimpleInterfaceSerializer(),
             'events',
