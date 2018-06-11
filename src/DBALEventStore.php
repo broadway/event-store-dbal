@@ -197,7 +197,6 @@ class DBALEventStore implements EventStore, EventStoreManagement
 
         $table = $schema->createTable($this->tableName);
 
-        $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('uuid', $uuidColumnDefinition['type'], $uuidColumnDefinition['params']);
         $table->addColumn('playhead', 'integer', ['unsigned' => true]);
         $table->addColumn('payload', 'text');
@@ -205,8 +204,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
         $table->addColumn('recorded_on', 'string', ['length' => 32]);
         $table->addColumn('type', 'string', ['length' => 255]);
 
-        $table->setPrimaryKey(['id']);
-        $table->addUniqueIndex(['uuid', 'playhead']);
+        $table->setPrimaryKey(['uuid', 'playhead']);
 
         return $table;
     }
@@ -281,14 +279,9 @@ class DBALEventStore implements EventStore, EventStoreManagement
     private function prepareVisitEventsStatement(Criteria $criteria)
     {
         list($where, $bindValues, $bindValueTypes) = $this->prepareVisitEventsStatementWhereAndBindValues($criteria);
-        $query                                     = 'SELECT uuid, playhead, metadata, payload, recorded_on
-            FROM ' . $this->tableName . '
-            ' . $where . '
-            ORDER BY id ASC';
+        $query = sprintf('SELECT uuid, playhead, metadata, payload, recorded_on FROM %s %s', $this->tableName, $where);
 
-        $statement = $this->connection->executeQuery($query, $bindValues, $bindValueTypes);
-
-        return $statement;
+        return $this->connection->executeQuery($query, $bindValues, $bindValueTypes);
     }
 
     private function prepareVisitEventsStatementWhereAndBindValues(Criteria $criteria)
