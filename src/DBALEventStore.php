@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Broadway\EventStore\Dbal;
 
 use Broadway\Domain\DateTime;
@@ -121,7 +123,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
     /**
      * {@inheritDoc}
      */
-    public function append($id, DomainEventStream $eventStream)
+    public function append($id, DomainEventStream $eventStream): void
     {
         // noop to ensure that an error will be thrown early if the ID
         // is not something that can be converted to a string. If we
@@ -266,7 +268,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
         return $id;
     }
 
-    public function visitEvents(Criteria $criteria, EventVisitor $eventVisitor)
+    public function visitEvents(Criteria $criteria, EventVisitor $eventVisitor): void
     {
         $statement = $this->prepareVisitEventsStatement($criteria);
         $statement->execute();
