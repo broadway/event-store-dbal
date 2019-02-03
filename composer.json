@@ -3,8 +3,8 @@
     "description": "Event store implementation using doctrine/dbal",
     "license": "MIT",
     "require": {
-        "php": ">=7.0",
-        "broadway/broadway": "^2.0",
+        "php": ">=7.1",
+        "broadway/broadway": "^2.1",
         "doctrine/dbal": "~2.4",
         "broadway/uuid-generator": "~0.4.0"
     },
