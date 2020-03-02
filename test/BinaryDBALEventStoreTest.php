@@ -28,7 +28,7 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
     /** @var \Doctrine\DBAL\Schema\Table  */
     protected $table;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (Version::compare('2.5.0') >= 0) {
             $this->markTestSkipped('Binary type is only available for Doctrine >= v2.5');
@@ -65,11 +65,11 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
 
     /**
      * @test
-     * @expectedException \Broadway\EventStore\Exception\InvalidIdentifierException
-     * @expectedExceptionMessage Only valid UUIDs are allowed to by used with the binary storage mode.
      */
     public function it_throws_an_exception_when_an_id_is_no_uuid_in_binary_mode()
     {
+        $this->expectException('Broadway\EventStore\Exception\InvalidIdentifierException');
+        $this->expectExceptionMessage('Only valid UUIDs are allowed to by used with the binary storage mode.');
         $id                = 'bleeh';
         $domainEventStream = new DomainEventStream([
             $this->createDomainMessage($id, 0),
@@ -89,11 +89,11 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
 
     /**
      * @test
-     * @expectedException \LogicException
-     * @expectedExceptionMessage binary UUID converter is required when using binary
      */
     public function it_throws_when_no_binary_uuid_converter_provided_when_using_binary()
     {
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('binary UUID converter is required when using binary');
         $eventStore = new DBALEventStore(
             $this->prophesize(Connection::class)->reveal(),
             new SimpleInterfaceSerializer(),
