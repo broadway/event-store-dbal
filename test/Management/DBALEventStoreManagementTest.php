@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the broadway/broadway package.
  *
@@ -21,10 +23,10 @@ class DBALEventStoreManagementTest extends EventStoreManagementTest
 {
     public function createEventStore()
     {
-        $connection       = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
-        $schemaManager    = $connection->getSchemaManager();
-        $schema           = $schemaManager->createSchema();
-        $eventStore       = new DBALEventStore(
+        $connection = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
+        $schemaManager = $connection->getSchemaManager();
+        $schema = $schemaManager->createSchema();
+        $eventStore = new DBALEventStore(
             $connection,
             new SimpleInterfaceSerializer(),
             new SimpleInterfaceSerializer(),
