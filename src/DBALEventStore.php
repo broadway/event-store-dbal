@@ -62,17 +62,15 @@ class DBALEventStore implements EventStore, EventStoreManagement
         bool $useBinary,
         BinaryUuidConverterInterface $binaryUuidConverter = null
     ) {
-        $this->connection          = $connection;
-        $this->payloadSerializer   = $payloadSerializer;
-        $this->metadataSerializer  = $metadataSerializer;
-        $this->tableName           = $tableName;
-        $this->useBinary           = (bool) $useBinary;
+        $this->connection = $connection;
+        $this->payloadSerializer = $payloadSerializer;
+        $this->metadataSerializer = $metadataSerializer;
+        $this->tableName = $tableName;
+        $this->useBinary = (bool) $useBinary;
         $this->binaryUuidConverter = $binaryUuidConverter;
 
         if ($this->useBinary && Version::compare('2.5.0') >= 0) {
-            throw new \InvalidArgumentException(
-                'The Binary storage is only available with Doctrine DBAL >= 2.5.0'
-            );
+            throw new \InvalidArgumentException('The Binary storage is only available with Doctrine DBAL >= 2.5.0');
         }
 
         if ($this->useBinary && null === $binaryUuidConverter) {
@@ -81,7 +79,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load($id): DomainEventStream
     {
@@ -103,7 +101,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function loadFromPlayhead($id, int $playhead): DomainEventStream
     {
@@ -121,7 +119,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function append($id, DomainEventStream $eventStream): void
     {
@@ -155,12 +153,12 @@ class DBALEventStore implements EventStore, EventStoreManagement
     private function insertMessage(Connection $connection, DomainMessage $domainMessage)
     {
         $data = [
-            'uuid'        => $this->convertIdentifierToStorageValue((string) $domainMessage->getId()),
-            'playhead'    => $domainMessage->getPlayhead(),
-            'metadata'    => json_encode($this->metadataSerializer->serialize($domainMessage->getMetadata())),
-            'payload'     => json_encode($this->payloadSerializer->serialize($domainMessage->getPayload())),
+            'uuid' => $this->convertIdentifierToStorageValue((string) $domainMessage->getId()),
+            'playhead' => $domainMessage->getPlayhead(),
+            'metadata' => json_encode($this->metadataSerializer->serialize($domainMessage->getMetadata())),
+            'payload' => json_encode($this->payloadSerializer->serialize($domainMessage->getPayload())),
             'recorded_on' => $domainMessage->getRecordedOn()->toString(),
-            'type'        => $domainMessage->getType(),
+            'type' => $domainMessage->getType(),
         ];
 
         $connection->insert($this->tableName, $data);
@@ -183,17 +181,17 @@ class DBALEventStore implements EventStore, EventStoreManagement
         $schema = $schema ?: new Schema();
 
         $uuidColumnDefinition = [
-            'type'   => 'guid',
+            'type' => 'guid',
             'params' => [
                 'length' => 36,
             ],
         ];
 
         if ($this->useBinary) {
-            $uuidColumnDefinition['type']   = 'binary';
+            $uuidColumnDefinition['type'] = 'binary';
             $uuidColumnDefinition['params'] = [
                 'length' => 16,
-                'fixed'  => true,
+                'fixed' => true,
             ];
         }
 
@@ -217,7 +215,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
     {
         if (null === $this->loadStatement) {
             $query = 'SELECT uuid, playhead, metadata, payload, recorded_on
-                FROM ' . $this->tableName . '
+                FROM '.$this->tableName.'
                 WHERE uuid = ?
                 AND playhead >= ?
                 ORDER BY playhead ASC';
@@ -244,9 +242,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
             try {
                 return $this->binaryUuidConverter->fromString($id);
             } catch (\Exception $e) {
-                throw new InvalidIdentifierException(
-                    'Only valid UUIDs are allowed to by used with the binary storage mode.'
-                );
+                throw new InvalidIdentifierException('Only valid UUIDs are allowed to by used with the binary storage mode.');
             }
         }
 
@@ -259,9 +255,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
             try {
                 return $this->binaryUuidConverter->fromBytes($id);
             } catch (\Exception $e) {
-                throw new InvalidIdentifierException(
-                    'Could not convert binary storage value to UUID.'
-                );
+                throw new InvalidIdentifierException('Could not convert binary storage value to UUID.');
             }
         }
 
@@ -283,9 +277,9 @@ class DBALEventStore implements EventStore, EventStoreManagement
     private function prepareVisitEventsStatement(Criteria $criteria)
     {
         list($where, $bindValues, $bindValueTypes) = $this->prepareVisitEventsStatementWhereAndBindValues($criteria);
-        $query                                     = 'SELECT uuid, playhead, metadata, payload, recorded_on
-            FROM ' . $this->tableName . '
-            ' . $where . '
+        $query = 'SELECT uuid, playhead, metadata, payload, recorded_on
+            FROM '.$this->tableName.'
+            '.$where.'
             ORDER BY id ASC';
 
         $statement = $this->connection->executeQuery($query, $bindValues, $bindValueTypes);
@@ -296,12 +290,10 @@ class DBALEventStore implements EventStore, EventStoreManagement
     private function prepareVisitEventsStatementWhereAndBindValues(Criteria $criteria)
     {
         if ($criteria->getAggregateRootTypes()) {
-            throw new CriteriaNotSupportedException(
-                'DBAL implementation cannot support criteria based on aggregate root types.'
-            );
+            throw new CriteriaNotSupportedException('DBAL implementation cannot support criteria based on aggregate root types.');
         }
 
-        $bindValues     = [];
+        $bindValues = [];
         $bindValueTypes = [];
 
         $criteriaTypes = [];
@@ -316,22 +308,22 @@ class DBALEventStore implements EventStore, EventStoreManagement
                 }
                 $bindValueTypes['uuids'] = Connection::PARAM_STR_ARRAY;
             } else {
-                $bindValues['uuids']     = $criteria->getAggregateRootIds();
+                $bindValues['uuids'] = $criteria->getAggregateRootIds();
                 $bindValueTypes['uuids'] = Connection::PARAM_STR_ARRAY;
             }
         }
 
         if ($criteria->getEventTypes()) {
-            $criteriaTypes[]         = 'type IN (:types)';
-            $bindValues['types']     = $criteria->getEventTypes();
+            $criteriaTypes[] = 'type IN (:types)';
+            $bindValues['types'] = $criteria->getEventTypes();
             $bindValueTypes['types'] = Connection::PARAM_STR_ARRAY;
         }
 
-        if (! $criteriaTypes) {
+        if (!$criteriaTypes) {
             return ['', [], []];
         }
 
-        $where = 'WHERE ' . join(' AND ', $criteriaTypes);
+        $where = 'WHERE '.join(' AND ', $criteriaTypes);
 
         return [$where, $bindValues, $bindValueTypes];
     }

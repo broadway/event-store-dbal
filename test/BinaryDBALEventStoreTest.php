@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the broadway/broadway package.
  *
@@ -25,7 +27,7 @@ use Doctrine\DBAL\Version;
  */
 class BinaryDBALEventStoreTest extends DBALEventStoreTest
 {
-    /** @var \Doctrine\DBAL\Schema\Table  */
+    /** @var \Doctrine\DBAL\Schema\Table */
     protected $table;
 
     protected function setUp(): void
@@ -34,9 +36,9 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
             $this->markTestSkipped('Binary type is only available for Doctrine >= v2.5');
         }
 
-        $connection       = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
-        $schemaManager    = $connection->getSchemaManager();
-        $schema           = $schemaManager->createSchema();
+        $connection = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
+        $schemaManager = $connection->getSchemaManager();
+        $schema = $schemaManager->createSchema();
         $this->eventStore = new DBALEventStore(
             $connection,
             new SimpleInterfaceSerializer(),
@@ -70,7 +72,7 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
     {
         $this->expectException('Broadway\EventStore\Exception\InvalidIdentifierException');
         $this->expectExceptionMessage('Only valid UUIDs are allowed to by used with the binary storage mode.');
-        $id                = 'bleeh';
+        $id = 'bleeh';
         $domainEventStream = new DomainEventStream([
             $this->createDomainMessage($id, 0),
         ]);
