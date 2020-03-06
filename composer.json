@@ -5,8 +5,7 @@
     "require": {
         "php": ">=7.2",
         "broadway/broadway": "^2.2.1",
-        "doctrine/dbal": "^2.4",
-        "broadway/uuid-generator": "~0.4"
+        "doctrine/dbal": "^2.4"
     },
     "authors": [
       {
