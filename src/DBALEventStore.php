@@ -28,7 +28,6 @@ use Broadway\Serializer\Serializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverterInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\ResultStatement;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Schema\Schema;
@@ -187,9 +186,6 @@ class DBALEventStore implements EventStore, EventStoreManagement
         $connection->insert($this->tableName, $data);
     }
 
-    /**
-     * @return \Doctrine\DBAL\Schema\Table|null
-     */
     public function configureSchema(Schema $schema): ?\Doctrine\DBAL\Schema\Table
     {
         if ($schema->hasTable($this->tableName)) {
@@ -261,6 +257,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
 
     /**
      * @param mixed $id
+     *
      * @return mixed
      */
     private function convertIdentifierToStorageValue($id)
@@ -278,6 +275,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
 
     /**
      * @param mixed $id
+     *
      * @return mixed
      */
     private function convertStorageValueToIdentifier($id)
