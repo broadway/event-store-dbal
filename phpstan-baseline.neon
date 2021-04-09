@@ -9,9 +9,3 @@ parameters:
 			message: "#^Cannot call static method fromBytes\\(\\) on Broadway\\\\UuidGenerator\\\\Converter\\\\BinaryUuidConverterInterface\\|null\\.$#"
 			count: 1
 			path: src/DBALEventStore.php
-
-		-
-			message: "#^Method Broadway\\\\EventStore\\\\Dbal\\\\DBALEventStore\\:\\:prepareVisitEventsStatement\\(\\) should return Doctrine\\\\DBAL\\\\Driver\\\\Statement but returns Doctrine\\\\DBAL\\\\Driver\\\\ResultStatement\\.$#"
-			count: 1
-			path: src/DBALEventStore.php
-
