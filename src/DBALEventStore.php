@@ -28,6 +28,7 @@ use Broadway\Serializer\Serializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverterInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\ResultStatement;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Schema\Schema;
@@ -294,7 +295,6 @@ class DBALEventStore implements EventStore, EventStoreManagement
     public function visitEvents(Criteria $criteria, EventVisitor $eventVisitor): void
     {
         $statement = $this->prepareVisitEventsStatement($criteria);
-        $statement->execute();
 
         while ($row = $statement->fetch()) {
             $domainMessage = $this->deserializeEvent($row);
@@ -303,7 +303,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
         }
     }
 
-    private function prepareVisitEventsStatement(Criteria $criteria): Statement
+    private function prepareVisitEventsStatement(Criteria $criteria): ResultStatement
     {
         list($where, $bindValues, $bindValueTypes) = $this->prepareVisitEventsStatementWhereAndBindValues($criteria);
         $query = 'SELECT uuid, playhead, metadata, payload, recorded_on
