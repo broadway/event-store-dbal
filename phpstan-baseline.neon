@@ -1,17 +1,17 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Cannot call static method fromString\\(\\) on Broadway\\\\UuidGenerator\\\\Converter\\\\BinaryUuidConverterInterface\\|null\\.$#"
-			count: 1
-			path: src/DBALEventStore.php
-
-		-
 			message: "#^Cannot call static method fromBytes\\(\\) on Broadway\\\\UuidGenerator\\\\Converter\\\\BinaryUuidConverterInterface\\|null\\.$#"
 			count: 1
 			path: src/DBALEventStore.php
 
 		-
-			message: "#^Method Broadway\\\\EventStore\\\\Dbal\\\\DBALEventStore\\:\\:prepareVisitEventsStatement\\(\\) should return Doctrine\\\\DBAL\\\\Driver\\\\Statement but returns Doctrine\\\\DBAL\\\\Driver\\\\ResultStatement\\.$#"
+			message: "#^Cannot call static method fromString\\(\\) on Broadway\\\\UuidGenerator\\\\Converter\\\\BinaryUuidConverterInterface\\|null\\.$#"
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
+			message: "#^Method Broadway\\\\EventStore\\\\Dbal\\\\DBALEventStore\\:\\:prepareVisitEventsStatement\\(\\) should return Doctrine\\\\DBAL\\\\Driver\\\\Statement but returns Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\DriverResultStatement\\|Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\DriverStatement\\.$#"
 			count: 1
 			path: src/DBALEventStore.php
 
