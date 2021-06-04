@@ -5,7 +5,7 @@
     "require": {
         "php": ">=7.2",
         "broadway/broadway": "^2.3.1",
-        "doctrine/dbal": "^2.4"
+        "doctrine/dbal": "^3.1"
     },
     "authors": [
       {
