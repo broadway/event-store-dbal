@@ -3,7 +3,7 @@ broadway/event-store-dbal
 
 Event store implementation using [doctrine/dbal](https://github.com/doctrine/dbal).
 
-[![Build Status](https://travis-ci.com/broadway/event-store-dbal.svg?branch=master)](https://travis-ci.com/broadway/event-store-dbal)
+![build status](https://github.com/broadway/event-store-dbal/actions/workflows/ci.yml/badge.svg)
 
 ## Installation
 
