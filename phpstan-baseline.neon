@@ -10,8 +10,3 @@ parameters:
 			count: 1
 			path: src/DBALEventStore.php
 
-		-
-			message: "#^Method Broadway\\\\EventStore\\\\Dbal\\\\DBALEventStore\\:\\:prepareVisitEventsStatement\\(\\) should return Doctrine\\\\DBAL\\\\Driver\\\\Statement but returns Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\DriverResultStatement\\|Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\DriverStatement\\.$#"
-			count: 1
-			path: src/DBALEventStore.php
-
