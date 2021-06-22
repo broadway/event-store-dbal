@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace Broadway\EventStore\Dbal;
 
 use Broadway\EventStore\EventStoreException;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 
 /**
  * Wraps exceptions thrown by the DBAL event store.
  */
 class DBALEventStoreException extends EventStoreException
 {
-    public static function create(DBALException $exception): DBALEventStoreException
+    public static function create(Exception $exception): DBALEventStoreException
     {
         return new DBALEventStoreException('', 0, $exception);
     }

@@ -20,7 +20,7 @@ use Broadway\UuidGenerator\Rfc4122\Version4Generator;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
-use Doctrine\DBAL\Version;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * @requires extension pdo_sqlite
@@ -32,10 +32,6 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
 
     protected function setUp(): void
     {
-        if (Version::compare('2.5.0') >= 0) {
-            $this->markTestSkipped('Binary type is only available for Doctrine >= v2.5');
-        }
-
         $connection = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
         $schemaManager = $connection->getSchemaManager();
         $schema = $schemaManager->createSchema();
@@ -61,7 +57,7 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
         $uuidColumn = $this->table->getColumn('uuid');
 
         $this->assertEquals(16, $uuidColumn->getLength());
-        $this->assertEquals(Type::getType(Type::BINARY), $uuidColumn->getType());
+        $this->assertEquals(Type::getType(Types::BINARY), $uuidColumn->getType());
         $this->assertTrue($uuidColumn->getFixed());
     }
 
