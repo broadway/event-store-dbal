@@ -170,11 +170,21 @@ class DBALEventStore implements EventStore, EventStoreManagement
 
     private function insertMessage(Connection $connection, DomainMessage $domainMessage): void
     {
+        $metadata = json_encode($this->metadataSerializer->serialize($domainMessage->getMetadata()));
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \RuntimeException('unable to encode `metadata`');
+        }
+
+        $payload = json_encode($this->payloadSerializer->serialize($domainMessage->getPayload()));
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \RuntimeException('unable to encode `payload`');
+        }
+
         $data = [
             'uuid' => $this->convertIdentifierToStorageValue((string) $domainMessage->getId()),
             'playhead' => $domainMessage->getPlayhead(),
-            'metadata' => json_encode($this->metadataSerializer->serialize($domainMessage->getMetadata())),
-            'payload' => json_encode($this->payloadSerializer->serialize($domainMessage->getPayload())),
+            'metadata' => $metadata,
+            'payload' => $payload,
             'recorded_on' => $domainMessage->getRecordedOn()->toString(),
             'type' => $domainMessage->getType(),
         ];
