@@ -10,3 +10,23 @@ parameters:
 			count: 1
 			path: src/DBALEventStore.php
 
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
+			message: "#^Parameter \\#1 \\$serializedObject of method Broadway\\\\Serializer\\\\Serializer\\:\\:deserialize\\(\\) expects array, mixed given\\.$#"
+			count: 2
+			path: src/DBALEventStore.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
+			message: "#^Parameter \\#3 \\$metadata of class Broadway\\\\Domain\\\\DomainMessage constructor expects Broadway\\\\Domain\\\\Metadata, mixed given\\.$#"
+			count: 1
+			path: src/DBALEventStore.php
+
