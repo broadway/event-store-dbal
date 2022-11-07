@@ -44,6 +44,7 @@ class DBALEventStoreTest extends EventStoreTest
 
     /**
      * @test
+     *
      * @doesNotPerformAssertions
      */
     public function it_allows_no_binary_uuid_converter_provided_when_not_using_binary()
