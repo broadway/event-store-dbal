@@ -21,12 +21,15 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * @requires extension pdo_sqlite
  */
 class BinaryDBALEventStoreTest extends DBALEventStoreTest
 {
+    use ProphecyTrait;
+
     /** @var \Doctrine\DBAL\Schema\Table */
     protected $table;
 
