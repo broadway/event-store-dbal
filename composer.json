@@ -39,7 +39,8 @@
         "ramsey/uuid": "^4.0",
         "broadway/coding-standard": "^1.2",
         "phpstan/phpstan": "@stable",
-        "phpspec/prophecy": "^1.15"
+        "phpspec/prophecy": "^1.15",
+        "phpspec/prophecy-phpunit": "^2.2"
     },
     "autoload": {
         "psr-4": {

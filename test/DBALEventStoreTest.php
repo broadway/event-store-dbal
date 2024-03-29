@@ -18,12 +18,15 @@ use Broadway\Serializer\SimpleInterfaceSerializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * @requires extension pdo_sqlite
  */
 class DBALEventStoreTest extends EventStoreTest
 {
+    use ProphecyTrait;
+
     protected function setUp(): void
     {
         $connection = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
