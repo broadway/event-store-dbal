@@ -59,7 +59,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
     /**
      * @var Statement|null
      */
-    private $loadStatement = null;
+    private $loadStatement;
 
     /**
      * @var string
@@ -82,7 +82,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
         Serializer $metadataSerializer,
         string $tableName,
         bool $useBinary,
-        BinaryUuidConverterInterface $binaryUuidConverter = null
+        ?BinaryUuidConverterInterface $binaryUuidConverter = null
     ) {
         $this->connection = $connection;
         $this->payloadSerializer = $payloadSerializer;
@@ -96,9 +96,6 @@ class DBALEventStore implements EventStore, EventStoreManagement
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load($id): DomainEventStream
     {
         $statement = $this->prepareLoadStatement();
@@ -118,9 +115,6 @@ class DBALEventStore implements EventStore, EventStoreManagement
         return new DomainEventStream($events);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadFromPlayhead($id, int $playhead): DomainEventStream
     {
         $statement = $this->prepareLoadStatement();
@@ -136,9 +130,6 @@ class DBALEventStore implements EventStore, EventStoreManagement
         return new DomainEventStream($events);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function append($id, DomainEventStream $eventStream): void
     {
         // noop to ensure that an error will be thrown early if the ID
@@ -191,7 +182,7 @@ class DBALEventStore implements EventStore, EventStoreManagement
         return $this->configureTable($schema);
     }
 
-    public function configureTable(Schema $schema = null): \Doctrine\DBAL\Schema\Table
+    public function configureTable(?Schema $schema = null): \Doctrine\DBAL\Schema\Table
     {
         $schema = $schema ?: new Schema();
 
@@ -251,34 +242,24 @@ class DBALEventStore implements EventStore, EventStoreManagement
         );
     }
 
-    /**
-     * @param mixed $id
-     *
-     * @return mixed
-     */
-    private function convertIdentifierToStorageValue($id)
+    private function convertIdentifierToStorageValue(mixed $id): string
     {
         if ($this->useBinary) {
             try {
-                return $this->binaryUuidConverter::fromString($id);
+                return $this->binaryUuidConverter::fromString((string) $id);
             } catch (\Exception $e) {
                 throw new InvalidIdentifierException('Only valid UUIDs are allowed to by used with the binary storage mode.');
             }
         }
 
-        return $id;
+        return (string) $id;
     }
 
-    /**
-     * @param mixed $id
-     *
-     * @return mixed
-     */
-    private function convertStorageValueToIdentifier($id)
+    private function convertStorageValueToIdentifier(string $id): string
     {
         if ($this->useBinary) {
             try {
-                return $this->binaryUuidConverter::fromBytes($id);
+                return $this->binaryUuidConverter::fromBytes((string) $id);
             } catch (\Exception $e) {
                 throw new InvalidIdentifierException('Could not convert binary storage value to UUID.');
             }
