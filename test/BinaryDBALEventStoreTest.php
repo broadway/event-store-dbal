@@ -104,4 +104,24 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
             null
         );
     }
+
+    /**
+     * Overriding base test as it doesn't use the data provider andthis testcase fails on non-uuid ids.
+     *
+     * @test
+     */
+    public function empty_set_of_events_can_be_added(): void
+    {
+        $id = (new Version4Generator())->generate();
+
+        $domainMessage = $this->createDomainMessage($id, 0);
+        $baseStream = new DomainEventStream([$domainMessage]);
+        $this->eventStore->append($id, $baseStream);
+        $appendedEventStream = new DomainEventStream([]);
+
+        $this->eventStore->append($id, $appendedEventStream);
+
+        $events = $this->eventStore->load($id);
+        $this->assertCount(1, $events);
+    }
 }
