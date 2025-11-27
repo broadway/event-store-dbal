@@ -29,8 +29,8 @@ class BinaryDBALEventStoreManagementTest extends DBALEventStoreManagementTest
     public function createEventStore()
     {
         $connection = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
-        $schemaManager = $connection->getSchemaManager();
-        $schema = $schemaManager->createSchema();
+        $schemaManager = $connection->createSchemaManager();
+        $schema = $schemaManager->introspectSchema();
         $eventStore = new DBALEventStore(
             $connection,
             new SimpleInterfaceSerializer(),

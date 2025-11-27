@@ -19,6 +19,7 @@ use Broadway\UuidGenerator\Converter\BinaryUuidConverter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Prophecy\PhpUnit\ProphecyTrait;
+use Broadway\Domain\DomainEventStream;
 
 /**
  * @requires extension pdo_sqlite
@@ -30,8 +31,8 @@ class DBALEventStoreTest extends EventStoreTest
     protected function setUp(): void
     {
         $connection = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'memory' => true]);
-        $schemaManager = $connection->getSchemaManager();
-        $schema = $schemaManager->createSchema();
+        $schemaManager = $connection->createSchemaManager();
+        $schema = $schemaManager->introspectSchema();
         $this->eventStore = new DBALEventStore(
             $connection,
             new SimpleInterfaceSerializer(),

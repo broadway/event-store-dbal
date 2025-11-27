@@ -26,6 +26,7 @@ use Broadway\EventStore\Management\CriteriaNotSupportedException;
 use Broadway\EventStore\Management\EventStoreManagement;
 use Broadway\Serializer\Serializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverterInterface;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -309,17 +310,17 @@ class DBALEventStore implements EventStore, EventStoreManagement
                 foreach ($criteria->getAggregateRootIds() as $id) {
                     $bindValues['uuids'][] = $this->convertIdentifierToStorageValue($id);
                 }
-                $bindValueTypes['uuids'] = Connection::PARAM_STR_ARRAY;
+                $bindValueTypes['uuids'] = ArrayParameterType::STRING;
             } else {
                 $bindValues['uuids'] = $criteria->getAggregateRootIds();
-                $bindValueTypes['uuids'] = Connection::PARAM_STR_ARRAY;
+                $bindValueTypes['uuids'] = ArrayParameterType::STRING;
             }
         }
 
         if ($criteria->getEventTypes()) {
             $criteriaTypes[] = 'type IN (:types)';
             $bindValues['types'] = $criteria->getEventTypes();
-            $bindValueTypes['types'] = Connection::PARAM_STR_ARRAY;
+            $bindValueTypes['types'] = ArrayParameterType::STRING;
         }
 
         if (!$criteriaTypes) {
