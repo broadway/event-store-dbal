@@ -1,32 +1,91 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Cannot call static method fromBytes\\(\\) on Broadway\\\\UuidGenerator\\\\Converter\\\\BinaryUuidConverterInterface\\|null\\.$#"
+			message: '#^Binary operation "\." between non\-falsy\-string and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 1
 			path: src/DBALEventStore.php
 
 		-
-			message: "#^Cannot call static method fromString\\(\\) on Broadway\\\\UuidGenerator\\\\Converter\\\\BinaryUuidConverterInterface\\|null\\.$#"
+			message: '#^Cannot call static method fromBytes\(\) on Broadway\\UuidGenerator\\Converter\\BinaryUuidConverterInterface\|null\.$#'
+			identifier: staticMethod.nonObject
 			count: 1
 			path: src/DBALEventStore.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot call static method fromString\(\) on Broadway\\UuidGenerator\\Converter\\BinaryUuidConverterInterface\|null\.$#'
+			identifier: staticMethod.nonObject
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 3
 			path: src/DBALEventStore.php
 
 		-
-			message: "#^Parameter \\#1 \\$serializedObject of method Broadway\\\\Serializer\\\\Serializer\\:\\:deserialize\\(\\) expects array, mixed given\\.$#"
+			message: '#^Method Broadway\\EventStore\\Dbal\\DBALEventStore\:\:deserializeEvent\(\) has parameter \$row with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
+			message: '#^Method Broadway\\EventStore\\Dbal\\DBALEventStore\:\:prepareVisitEventsStatementWhereAndBindValues\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
+			message: '#^Parameter \#1 \$dateTimeString of static method Broadway\\Domain\\DateTime\:\:fromString\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
+			message: '#^Parameter \#1 \$id of method Broadway\\EventStore\\Dbal\\DBALEventStore\:\:convertStorageValueToIdentifier\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
+			identifier: argument.type
 			count: 2
 			path: src/DBALEventStore.php
 
 		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#1 \$serializedObject of method Broadway\\Serializer\\Serializer\:\:deserialize\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/DBALEventStore.php
+
+		-
+			message: '#^Parameter \#2 \$params of method Doctrine\\DBAL\\Connection\:\:executeQuery\(\) expects array\<int\<0, max\>\|string, mixed\>, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/DBALEventStore.php
 
 		-
-			message: "#^Parameter \\#3 \\$metadata of class Broadway\\\\Domain\\\\DomainMessage constructor expects Broadway\\\\Domain\\\\Metadata, mixed given\\.$#"
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/DBALEventStore.php
 
+		-
+			message: '#^Parameter \#3 \$metadata of class Broadway\\Domain\\DomainMessage constructor expects Broadway\\Domain\\Metadata, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
+			message: '#^Parameter \#3 \$types of method Doctrine\\DBAL\\Connection\:\:executeQuery\(\) expects array\<int\|string, Doctrine\\DBAL\\Types\\Type\|int\|string\|null\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/DBALEventStore.php
