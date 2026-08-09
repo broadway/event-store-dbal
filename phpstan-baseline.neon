@@ -85,7 +85,7 @@ parameters:
 			path: src/DBALEventStore.php
 
 		-
-			message: '#^Parameter \#3 \$types of method Doctrine\\DBAL\\Connection\:\:executeQuery\(\) expects array\<int\|string, Doctrine\\DBAL\\Types\\Type\|int\|string\|null\>, mixed given\.$#'
+			message: '#^Parameter \#3 \$types of method Doctrine\\DBAL\\Connection\:\:executeQuery\(\) expects array\<int\<0, max\>\|string, Doctrine\\DBAL\\ArrayParameterType\|Doctrine\\DBAL\\ParameterType\|Doctrine\\DBAL\\Types\\Type\|string\>, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/DBALEventStore.php
