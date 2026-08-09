@@ -17,10 +17,9 @@ use Broadway\EventStore\Dbal\DBALEventStore;
 use Broadway\Serializer\SimpleInterfaceSerializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverter;
 use Doctrine\DBAL\DriverManager;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
-/**
- * @requires extension pdo_sqlite
- */
+#[RequiresPhpExtension('pdo_sqlite')]
 class BinaryDBALEventStoreManagementTest extends DBALEventStoreManagementTest
 {
     /** @var \Doctrine\DBAL\Schema\Table */

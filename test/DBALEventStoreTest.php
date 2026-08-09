@@ -18,11 +18,12 @@ use Broadway\Serializer\SimpleInterfaceSerializer;
 use Broadway\UuidGenerator\Converter\BinaryUuidConverter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\PhpUnit\ProphecyTrait;
 
-/**
- * @requires extension pdo_sqlite
- */
+#[RequiresPhpExtension('pdo_sqlite')]
 class DBALEventStoreTest extends EventStoreTest
 {
     use ProphecyTrait;
@@ -45,11 +46,8 @@ class DBALEventStoreTest extends EventStoreTest
         $schemaManager->createTable($table);
     }
 
-    /**
-     * @test
-     *
-     * @doesNotPerformAssertions
-     */
+    #[Test]
+    #[DoesNotPerformAssertions]
     public function it_allows_no_binary_uuid_converter_provided_when_not_using_binary()
     {
         $eventStore = new DBALEventStore(

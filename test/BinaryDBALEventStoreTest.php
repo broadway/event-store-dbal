@@ -21,11 +21,11 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\PhpUnit\ProphecyTrait;
 
-/**
- * @requires extension pdo_sqlite
- */
+#[RequiresPhpExtension('pdo_sqlite')]
 class BinaryDBALEventStoreTest extends DBALEventStoreTest
 {
     use ProphecyTrait;
@@ -52,9 +52,7 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
         $schemaManager->createTable($this->table);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function table_should_contain_binary_uuid_column()
     {
         $uuidColumn = $this->table->getColumn('uuid');
@@ -64,9 +62,7 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
         $this->assertTrue($uuidColumn->getFixed());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_an_exception_when_an_id_is_no_uuid_in_binary_mode()
     {
         $this->expectException('Broadway\EventStore\Exception\InvalidIdentifierException');
@@ -79,7 +75,7 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
         $this->eventStore->append($id, $domainEventStream);
     }
 
-    public function idDataProvider()
+    public static function idDataProvider()
     {
         return [
             'UUID String' => [
@@ -88,9 +84,7 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_when_no_binary_uuid_converter_provided_when_using_binary()
     {
         $this->expectException('LogicException');
@@ -107,9 +101,8 @@ class BinaryDBALEventStoreTest extends DBALEventStoreTest
 
     /**
      * Overriding base test as it doesn't use the data provider andthis testcase fails on non-uuid ids.
-     *
-     * @test
      */
+    #[Test]
     public function empty_set_of_events_can_be_added(): void
     {
         $id = (new Version4Generator())->generate();
