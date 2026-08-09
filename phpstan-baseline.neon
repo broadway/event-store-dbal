@@ -31,8 +31,32 @@ parameters:
 			path: src/DBALEventStore.php
 
 		-
+			message: '#^Class Broadway\\EventStore\\Dbal\\DBALEventStore implements generic interface Broadway\\EventStore\\EventStore but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
+			message: '#^Method Broadway\\EventStore\\Dbal\\DBALEventStore\:\:append\(\) has parameter \$eventStream with generic class Broadway\\Domain\\DomainEventStream but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
 			message: '#^Method Broadway\\EventStore\\Dbal\\DBALEventStore\:\:deserializeEvent\(\) has parameter \$row with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
+			message: '#^Method Broadway\\EventStore\\Dbal\\DBALEventStore\:\:load\(\) return type with generic class Broadway\\Domain\\DomainEventStream does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/DBALEventStore.php
+
+		-
+			message: '#^Method Broadway\\EventStore\\Dbal\\DBALEventStore\:\:loadFromPlayhead\(\) return type with generic class Broadway\\Domain\\DomainEventStream does not specify its types\: T$#'
+			identifier: missingType.generics
 			count: 1
 			path: src/DBALEventStore.php
 
