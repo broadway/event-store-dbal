@@ -19,7 +19,6 @@ use Broadway\UuidGenerator\Converter\BinaryUuidConverter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Broadway\Domain\DomainEventStream;
 
 /**
  * @requires extension pdo_sqlite
